@@ -642,9 +642,10 @@
                 <button onclick="toggleModal('modal-detail')" class="text-gray-400 hover:text-red-500 transition p-1 ml-4 flex-shrink-0"><i class="ph-bold ph-x text-xl"></i></button>
             </div>
             <h2 id="m-title" class="text-2xl font-bold text-unidirDark mb-2 leading-tight mt-2"></h2>
-            <div class="flex flex-wrap gap-2 mb-5">
-                <span id="m-component" class="text-xs font-semibold px-3 py-1 rounded-full border border-gray-200 text-gray-500 bg-gray-50"></span>
-                <span id="m-id" class="text-xs font-mono px-3 py-1 rounded-full border border-gray-200 text-gray-400 bg-gray-50"></span>
+            <div class="flex flex-wrap items-center gap-2 mb-5">
+                <i class="ph-fill ph-squares-four text-unidirBlue text-sm"></i>
+                <span id="m-component" class="text-sm font-bold text-unidirBlue"></span>
+                <span id="m-id" class="hidden"></span>
             </div>
             <div id="m-desc" class="text-gray-600 leading-relaxed mb-6 text-sm whitespace-pre-line"></div>
             <div id="m-impact-block" class="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4 hidden">
@@ -814,14 +815,14 @@ function createCard(item) {
         <div class="p-5">
             <div class="flex justify-between items-start mb-3 gap-2">
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded ${col.bg} ${col.text} uppercase tracking-wide flex-shrink-0">${cat}</span>
-                ${dbId ? `<span class="text-[10px] text-gray-300 font-mono">${dbId}</span>` : ''}
+                ${mat ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded border border-gray-200 text-gray-500 flex-shrink-0">${mat}</span>` : ''}
             </div>
-            <h3 class="font-bold text-unidirDark text-sm leading-snug mb-3 group-hover:text-unidirBlue transition line-clamp-3">${title}</h3>
-            <p class="text-xs text-gray-500 line-clamp-3 leading-relaxed mb-4">${desc.substring(0,140)}${desc.length>140?'…':''}</p>
-            <div class="flex flex-wrap gap-1 mt-auto pt-2 border-t border-gray-100">
-                ${comp ? `<span class="text-[10px] bg-gray-100 text-gray-500 rounded-full px-2 py-0.5 font-medium truncate max-w-[140px]">${comp}</span>` : ''}
-                ${mat ? `<span class="text-[10px] bg-gray-100 text-gray-500 rounded-full px-2 py-0.5 font-medium">${mat}</span>` : ''}
-            </div>
+            <h3 class="font-bold text-unidirDark text-sm leading-snug mb-2 group-hover:text-unidirBlue transition line-clamp-3">${title}</h3>
+            ${comp ? `<div class="flex items-center gap-1.5 mb-3">
+                <i class="ph-fill ph-squares-four text-unidirBlue text-xs flex-shrink-0"></i>
+                <span class="text-xs font-semibold text-unidirBlue truncate">${comp}</span>
+            </div>` : ''}
+            <p class="text-xs text-gray-500 line-clamp-3 leading-relaxed">${desc.substring(0,140)}${desc.length>140?'…':''}</p>
         </div>
     </div>`;
 }
