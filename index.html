@@ -439,6 +439,7 @@
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/pa.png" width="24" height="18" alt="Panama" class="rounded-sm"> Panama</span>
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/ph.png" width="24" height="18" alt="Philippines" class="rounded-sm"> Philippines</span>
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/pl.png" width="24" height="18" alt="Poland" class="rounded-sm"> Poland</span>
+                <span class="country-chip"><img src="https://flagcdn.com/24x18/qa.png" width="24" height="18" alt="Qatar" class="rounded-sm"> Qatar</span>
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/sn.png" width="24" height="18" alt="Senegal" class="rounded-sm"> Senegal</span>
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/sl.png" width="24" height="18" alt="Sierra Leone" class="rounded-sm"> Sierra Leone</span>
                 <span class="country-chip"><img src="https://flagcdn.com/24x18/so.png" width="24" height="18" alt="Somalia" class="rounded-sm"> Somalia</span>
@@ -461,22 +462,22 @@
             <div>
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Regional Organisations</div>
                 <div class="flex flex-wrap">
-                    <span class="partner-chip">OAS — Organization of American States</span>
-                    <span class="partner-chip">ECOWAS — Economic Community of West African States</span>
-                    <span class="partner-chip">African Union</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/OAS_seal.svg/20px-OAS_seal.svg.png" width="20" height="20" alt="OAS" class="rounded-sm flex-shrink-0"> OAS — Organization of American States</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/ECOWAS_logo.svg/20px-ECOWAS_logo.svg.png" width="20" height="20" alt="ECOWAS" class="rounded-sm flex-shrink-0"> ECOWAS — Economic Community of West African States</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/African_Union_Logo.svg/20px-African_Union_Logo.svg.png" width="20" height="20" alt="African Union" class="rounded-sm flex-shrink-0"> African Union</span>
                 </div>
             </div>
             <div>
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">UN Entities &amp; International/Non-governmental Organisations</div>
                 <div class="flex flex-wrap">
-                    <span class="partner-chip">UNMAS — UN Mine Action Service</span>
-                    <span class="partner-chip">UNODC — UN Office on Drugs and Crime</span>
-                    <span class="partner-chip">UNODA — UN Office for Disarmament Affairs</span>
-                    <span class="partner-chip">UNOCT — UN Office of Counter-Terrorism</span>
-                    <span class="partner-chip">UNCTED — Counter-Terrorism Committee Executive Directorate</span>
-                    <span class="partner-chip">UNDP — UN Development Programme</span>
-                    <span class="partner-chip">Small Arms Survey</span>
-                    <span class="partner-chip">H&amp;I — Humanity &amp; Inclusion</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNMAS" class="rounded-sm flex-shrink-0"> UNMAS — UN Mine Action Service</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNODC" class="rounded-sm flex-shrink-0"> UNODC — UN Office on Drugs and Crime</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNODA" class="rounded-sm flex-shrink-0"> UNODA — UN Office for Disarmament Affairs</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNOCT" class="rounded-sm flex-shrink-0"> UNOCT — UN Office of Counter-Terrorism</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNCTED" class="rounded-sm flex-shrink-0"> UNCTED — Counter-Terrorism Committee Executive Directorate</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/UN_emblem_blue.svg/20px-UN_emblem_blue.svg.png" width="20" height="20" alt="UNDP" class="rounded-sm flex-shrink-0"> UNDP — UN Development Programme</span>
+                    <span class="partner-chip"><img src="https://www.smallarmssurvey.org/sites/default/files/SAS_logo_square.png" width="20" height="20" alt="Small Arms Survey" class="rounded-sm flex-shrink-0"> Small Arms Survey</span>
+                    <span class="partner-chip"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Handicap_International_logo.svg/20px-Handicap_International_logo.svg.png" width="20" height="20" alt="H&I" class="rounded-sm flex-shrink-0"> H&amp;I — Humanity &amp; Inclusion</span>
                 </div>
             </div>
         </div>
@@ -648,6 +649,20 @@
                 <span id="m-id" class="hidden"></span>
             </div>
             <div id="m-desc" class="text-gray-600 leading-relaxed mb-6 text-sm whitespace-pre-line"></div>
+
+            <!-- VISUAL block — only shown when VISUAL column is filled -->
+            <div id="m-visual-block" class="hidden mb-6">
+                <div class="rounded-xl border border-gray-200 overflow-hidden bg-gray-50">
+                    <iframe id="m-visual-frame"
+                        sandbox="allow-scripts allow-same-origin"
+                        class="w-full border-0 block"
+                        style="min-height:200px;"
+                        scrolling="no">
+                    </iframe>
+                </div>
+                <p id="m-visual-title" class="text-[11px] text-gray-400 italic text-center mt-1.5 hidden"></p>
+            </div>
+
             <div id="m-impact-block" class="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-4 hidden">
                 <div class="text-xs font-bold text-unidirBlue uppercase tracking-widest mb-1">Outcomes &amp; Impact</div>
                 <div id="m-impact" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line"></div>
@@ -778,7 +793,7 @@ function showDbError(msg) {
             if (!itemMat.toLowerCase().includes(mat.toLowerCase().replace(' → ',' to ').replace('→','to'))) return false;
         }
         if (q) {
-            const searchStr = [item['TITLE'],item['PRACTICE_TITLE'],item['DESCRIPTION'],item['MEASURE_DESCRIPTION'],item['COMPONENT'],item['SUMMARY']].join(' ').toLowerCase();
+            const searchStr = [item['TITLE'],item['PRACTICE_TITLE'],item['DESCRIPTION'],item['MEASURE_DESCRIPTION'],item['COMPONENT'],item['SUMMARY'],item['INTERNAL_KEYWORDS']].join(' ').toLowerCase();
             if (!searchStr.includes(q)) return false;
         }
         return true;
@@ -847,6 +862,33 @@ function openDetail(idx) {
     document.getElementById('m-component').textContent = comp;
     document.getElementById('m-id').textContent = dbId;
     document.getElementById('m-desc').textContent = desc;
+
+    // VISUAL block
+    const visualHtml = item['VISUAL'] || '';
+    const visualTitle = item['VISUAL_TITLE'] || '';
+    const visualBlock = document.getElementById('m-visual-block');
+    const visualFrame = document.getElementById('m-visual-frame');
+    const visualTitleEl = document.getElementById('m-visual-title');
+    if (visualHtml.trim()) {
+        visualBlock.classList.remove('hidden');
+        // Write HTML into iframe srcdoc
+        visualFrame.srcdoc = visualHtml;
+        // Auto-resize iframe after load
+        visualFrame.onload = function() {
+            try {
+                const h = visualFrame.contentDocument.body.scrollHeight;
+                if (h > 100) visualFrame.style.minHeight = (h + 20) + 'px';
+            } catch(e) {}
+        };
+        if (visualTitle.trim()) {
+            visualTitleEl.textContent = visualTitle;
+            visualTitleEl.classList.remove('hidden');
+        } else {
+            visualTitleEl.classList.add('hidden');
+        }
+    } else {
+        visualBlock.classList.add('hidden');
+    }
 
     const impactBlock = document.getElementById('m-impact-block');
     if (impact) { document.getElementById('m-impact').textContent = impact; impactBlock.classList.remove('hidden'); }
