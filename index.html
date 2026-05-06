@@ -37,7 +37,37 @@
         .partner-chip{display:inline-flex;align-items:center;gap:6px;background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:5px 14px;font-size:.8rem;font-weight:600;color:#0369a1;margin:3px}
         .flag{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:1.15em;line-height:1}
         .abt-active{color:#009edb;border-bottom-color:#009edb!important}
-    </style>
+    
+        /* Lightbox */
+        #lightbox-overlay {
+            display:none; position:fixed; inset:0; background:rgba(10,20,35,0.92);
+            z-index:200; align-items:center; justify-content:center; cursor:zoom-out;
+        }
+        #lightbox-overlay.active { display:flex; }
+        #lightbox-overlay img {
+            max-width:92vw; max-height:90vh; border-radius:10px;
+            box-shadow:0 8px 48px rgba(0,0,0,0.6); object-fit:contain; cursor:default;
+        }
+        #lightbox-overlay iframe {
+            width:92vw; height:88vh; border:none; border-radius:10px;
+            background:#fff; box-shadow:0 8px 48px rgba(0,0,0,0.6);
+        }
+        #lightbox-close {
+            position:fixed; top:18px; right:22px; color:#fff; font-size:2rem;
+            cursor:pointer; z-index:201; line-height:1; opacity:0.8;
+            transition:opacity .2s; background:none; border:none;
+        }
+        #lightbox-close:hover { opacity:1; }
+        .zoomable { cursor:zoom-in; transition:opacity .15s; }
+        .zoomable:hover { opacity:0.9; }
+
+        /* Mobile filter toggle */
+        #filter-mobile-bar { display:none; }
+        @media (max-width:767px), (min-resolution:1.5dppx) and (max-width:1024px) {
+            #filter-mobile-bar { display:flex; }
+        }
+
+</style>
 </head>
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen font-sans">
 
@@ -157,7 +187,73 @@
 </section>
 
 <!-- ════ DATABASE ════ -->
-<section id="sect-db" class="hide-section fade-in flex gap-6 container mx-auto px-4 py-10 max-w-7xl">
+<section id="sect-db" class="hide-section fade-in container mx-auto px-4 py-10 max-w-7xl">
+
+    <!-- Mobile filter toggle bar -->
+    <div id="filter-mobile-bar" class="flex items-center justify-between mb-4 md:hidden">
+        <span class="text-sm font-bold text-unidirDark flex items-center gap-2"><i class="ph-fill ph-faders"></i> Filters</span>
+        <button onclick="toggleMobileFilters()" id="filter-toggle-btn"
+            class="text-xs font-bold text-white bg-unidirBlue px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow">
+            <i class="ph-bold ph-sliders" id="filter-toggle-icon"></i> <span id="filter-toggle-label">Show Filters</span>
+        </button>
+    </div>
+
+    <!-- Mobile filter panel (hidden by default) -->
+    <div id="filter-mobile-panel" class="hidden md:hidden mb-6 bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <div class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Keywords</label>
+                <input type="text" id="filter-search-m" onkeyup="syncMobileSearch(this.value)" class="w-full bg-gray-50 border border-gray-200 rounded p-2.5 text-sm outline-none focus:border-unidirBlue" placeholder="Search…">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Category</label>
+                <div class="flex flex-wrap gap-3">
+                    <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" id="chk-up-m" onchange="syncMobileCheckbox('chk-up','chk-up-m')" class="accent-unidirBlue" checked> Upstream</label>
+                    <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" id="chk-down-m" onchange="syncMobileCheckbox('chk-down','chk-down-m')" class="accent-orange-500" checked> Downstream</label>
+                    <label class="flex items-center gap-1.5 text-sm cursor-pointer"><input type="checkbox" id="chk-cross-m" onchange="syncMobileCheckbox('chk-cross','chk-cross-m')" class="accent-purple-600" checked> Cross-cutting</label>
+                </div>
+            </div>
+            <div>
+                <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Component</label>
+                <select id="sel-component-m" onchange="syncMobileSelect('sel-component','sel-component-m')" class="w-full bg-gray-50 border border-gray-200 rounded text-sm p-2.5 outline-none">
+                    <option value="all">All Components</option>
+                    <option value="Assessment of capabilities and threats">Assessment of capabilities and threats</option>
+                    <option value="Advocacy, policy, legislation and regulations">Advocacy, policy, legislation and regulations</option>
+                    <option value="Security and control of explosives">Security and control of explosives</option>
+                    <option value="Education on improvised explosive device risk">Education on IED risk</option>
+                    <option value="Development of capabilities to counter improvised explosive devices">Development of capabilities to counter IEDs</option>
+                    <option value="Border controls">Border controls</option>
+                    <option value="Control of precursors">Control of precursors</option>
+                    <option value="Regional and international cooperation and information-sharing">Regional and international cooperation</option>
+                    <option value="Intelligence-led operations">Intelligence-led operations</option>
+                    <option value="IED response: render safe">IED response: render safe</option>
+                    <option value="IED response: scene exploitation">IED response: scene exploitation</option>
+                    <option value="Recovered evidence analysis">Recovered evidence analysis</option>
+                    <option value="Information management">Information management</option>
+                    <option value="Technical exploitation of recovered devices">Technical exploitation of recovered devices</option>
+                    <option value="Identification of perpetrators">Identification of perpetrators</option>
+                    <option value="Victim assistance">Victim assistance</option>
+                    <option value="Judicial process">Judicial process</option>
+                    <option value="Development of countermeasures">Development of countermeasures</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs font-bold text-gray-400 uppercase mb-1 block">Maturity Level</label>
+                    <select id="sel-maturity-m" onchange="syncMobileSelect('sel-maturity','sel-maturity-m')" class="w-full bg-gray-50 border border-gray-200 rounded text-sm p-2.5 outline-none">
+                        <option value="all">All Levels</option>
+                        <option value="Level 1 to 2">Level 1 to 2</option>
+                        <option value="Level 2 to 3">Level 2 to 3</option>
+                        <option value="Level 3 to 4">Level 3 to 4</option>
+                        <option value="Level 4 to 5">Level 4 to 5</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="resetFilters()" class="text-xs text-unidirBlue font-bold hover:underline">Reset All Filters</button>
+        </div>
+    </div>
+
+    <div class="flex gap-6">
     <!-- Sidebar -->
     <aside class="w-72 flex-shrink-0 hidden md:block">
         <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm sticky top-28">
@@ -238,6 +334,7 @@
         </div>
         <div id="grid-container" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
     </div>
+    </div><!-- /flex gap-6 -->
 </section>
 
 <!-- ════ ABOUT ════ -->
@@ -335,7 +432,8 @@
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 text-center">UN WoS Approach</div>
                 <img src='https://drive.google.com/thumbnail?id=1H1vEA_dYmTMeFx9Bs11-b0i6e48Qqcin&sz=s4000'
                      onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'"
-                     alt="UN Whole-of-System Approach to Countering IEDs" class="w-full rounded" loading="lazy">
+                     alt="UN Whole-of-System Approach to Countering IEDs" class="w-full rounded zoomable"
+                     loading="lazy" onclick="openLightboxImg(this.src, this.alt)" title="Click to enlarge">
                 <div style="display:none" class="w-full aspect-video rounded bg-gray-100 items-center justify-content-center text-gray-400 text-sm p-6 text-center">
                     <i class="ph-fill ph-image text-3xl mb-2 block"></i>UN WoS Approach diagram<br><span class="text-xs">(Source: UNIDIR / UN Secretary-General Report 2024)</span>
                 </div>
@@ -348,7 +446,8 @@
                 <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 text-center">UNIDIR Capability Maturity Level</div>
                 <img src='https://drive.google.com/thumbnail?id=11lyAxsU4yoEkUBwNTypoHu0Mr4Hqm3Fk&sz=s4000'
                      onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='block'"
-                     alt="UNIDIR C-IED Levels of Maturity" class="w-full rounded" loading="lazy">
+                     alt="UNIDIR C-IED Levels of Maturity" class="w-full rounded zoomable"
+                     loading="lazy" onclick="openLightboxImg(this.src, this.alt)" title="Click to enlarge">
                 <div style="display:none">
                     <svg viewBox="0 0 320 200" class="w-full" aria-label="Five levels of C-IED capability maturity">
                         <defs><marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#1a2b3c"/></marker></defs>
@@ -632,7 +731,7 @@
 
 <!-- ════ DETAIL MODAL ════ -->
 <div id="modal-detail" class="fixed inset-0 modal-overlay z-[60] hidden flex items-center justify-center px-4">
-    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden">
         <div id="modal-bar" class="h-2 w-full bg-gray-200 flex-shrink-0"></div>
         <div class="p-8 overflow-y-auto">
             <div class="flex justify-between items-start mb-2">
@@ -652,13 +751,19 @@
 
             <!-- VISUAL block — only shown when VISUAL column is filled -->
             <div id="m-visual-block" class="hidden mb-6">
-                <div class="rounded-xl border border-gray-200 overflow-hidden bg-gray-50">
+                <div class="rounded-xl border border-gray-200 overflow-hidden bg-gray-50 relative group">
                     <iframe id="m-visual-frame"
                         sandbox="allow-scripts allow-same-origin"
                         class="w-full border-0 block"
                         style="min-height:200px;"
                         scrolling="no">
                     </iframe>
+                    <button id="m-visual-expand"
+                        onclick="openLightboxFrame()"
+                        class="absolute top-2 right-2 bg-white/80 hover:bg-white border border-gray-200 rounded-lg px-2 py-1 text-xs font-bold text-gray-500 hover:text-unidirBlue flex items-center gap-1 shadow-sm opacity-0 group-hover:opacity-100 transition"
+                        title="Open full screen">
+                        <i class="ph-bold ph-arrows-out text-sm"></i> Expand
+                    </button>
                 </div>
                 <p id="m-visual-title" class="text-[11px] text-gray-400 italic text-center mt-1.5 hidden"></p>
             </div>
@@ -907,7 +1012,81 @@ function toggleModal(id, show) {
 document.getElementById('modal-detail').addEventListener('click', function(e) {
     if (e.target === this) toggleModal('modal-detail', false);
 });
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') toggleModal('modal-detail', false); });
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        toggleModal('modal-detail', false);
+        closeLightbox();
+    }
+});
+
+// ── Lightbox ──
+function openLightboxImg(src, alt) {
+    const lb = document.getElementById('lightbox-overlay');
+    const img = document.getElementById('lightbox-img');
+    const frm = document.getElementById('lightbox-iframe');
+    img.src = src; img.alt = alt || '';
+    img.style.display = 'block';
+    frm.style.display = 'none'; frm.src = '';
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function openLightboxFrame() {
+    const src = document.getElementById('m-visual-frame').srcdoc;
+    if (!src) return;
+    const lb = document.getElementById('lightbox-overlay');
+    const img = document.getElementById('lightbox-img');
+    const frm = document.getElementById('lightbox-iframe');
+    img.style.display = 'none'; img.src = '';
+    frm.srcdoc = src; frm.style.display = 'block';
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+    if (e && e.target !== document.getElementById('lightbox-overlay') && !e.target.closest('#lightbox-close')) return;
+    const lb = document.getElementById('lightbox-overlay');
+    lb.classList.remove('active');
+    document.getElementById('lightbox-img').src = '';
+    document.getElementById('lightbox-iframe').src = '';
+    document.getElementById('lightbox-iframe').srcdoc = '';
+    document.body.style.overflow = '';
+}
+
+// ── Mobile filter sync ──
+function toggleMobileFilters() {
+    const panel = document.getElementById('filter-mobile-panel');
+    const label = document.getElementById('filter-toggle-label');
+    const icon = document.getElementById('filter-toggle-icon');
+    const hidden = panel.classList.contains('hidden');
+    panel.classList.toggle('hidden', !hidden);
+    label.textContent = hidden ? 'Hide Filters' : 'Show Filters';
+    icon.className = hidden ? 'ph-bold ph-x' : 'ph-bold ph-sliders';
+    // Sync mobile inputs with desktop on open
+    if (hidden) {
+        document.getElementById('filter-search-m').value = document.getElementById('filter-search').value;
+        document.getElementById('chk-up-m').checked = document.getElementById('chk-up').checked;
+        document.getElementById('chk-down-m').checked = document.getElementById('chk-down').checked;
+        document.getElementById('chk-cross-m').checked = document.getElementById('chk-cross').checked;
+        document.getElementById('sel-component-m').value = document.getElementById('sel-component').value;
+        document.getElementById('sel-maturity-m').value = document.getElementById('sel-maturity').value;
+    }
+}
+
+function syncMobileSearch(val) {
+    document.getElementById('filter-search').value = val;
+    renderGrid();
+}
+
+function syncMobileCheckbox(desktopId, mobileId) {
+    document.getElementById(desktopId).checked = document.getElementById(mobileId).checked;
+    renderGrid();
+}
+
+function syncMobileSelect(desktopId, mobileId) {
+    document.getElementById(desktopId).value = document.getElementById(mobileId).value;
+    renderGrid();
+}
 
 function resetFilters() {
     document.getElementById('filter-search').value = '';
@@ -929,5 +1108,12 @@ function copyCitation() {
     });
 }
 </script>
+
+<!-- ── Lightbox ── -->
+<div id="lightbox-overlay" onclick="closeLightbox(event)">
+    <button id="lightbox-close" onclick="closeLightbox()" title="Close"><i class="ph-bold ph-x"></i></button>
+    <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()">
+    <iframe id="lightbox-iframe" src="" sandbox="allow-scripts allow-same-origin" onclick="event.stopPropagation()" style="display:none"></iframe>
+</div>
 </body>
 </html>
